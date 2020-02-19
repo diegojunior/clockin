@@ -18,6 +18,8 @@
 		<java.version>1.8</java.version>
 		<h2.version>1.4.199</h2.version>
 		<wiremock.version>2.25.1</wiremock.version>
+		<junit.version>4.13</junit.version>
+		<guava.version>28.2-jre</guava.version>
 	</properties>
 
 	<dependencies>
@@ -41,6 +43,14 @@
 			<version>${h2.version}</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${guava.version}</version>
+		</dependency>
+
+
 		<!-- Test -->
 
 		<dependency>
@@ -52,8 +62,20 @@
 					<groupId>org.junit.vintage</groupId>
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.junit.jupter</groupId>
+					<artifactId>junit-jupter</artifactId>
+				</exclusion>
+
 			</exclusions>
 		</dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+        </dependency>
 
 		<dependency>
 			<groupId>com.github.tomakehurst</groupId>
