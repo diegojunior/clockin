@@ -8,12 +8,6 @@ Rest API de simulação de batida de ponto
 
 Esta aplicação necessita de ter o java instalado.
 
-### Installing
-
-Use the following line to install the dependencies of the app:
-```
-npm install
-```
 
 ## Executando a aplicação
 
@@ -31,8 +25,9 @@ mvn spring-boot:run
 
 ### Acessando a aplicação
 
-Os endpoints da api estão disponíveis pela uri base:
+Os endpoints da api para testar no curl estão disponíveis pela uri base:
 http://localhost:8080/clockin/v1/usuarios
+
 http://localhost:8080/clockin/v1/pontos
 
 A base de dados utilizada pelo teste é o H2 e os dados ja de usuário e senha estão salvos no application.properties
@@ -47,7 +42,7 @@ Using the functions of the application will only be possible after the database 
 
 ## Swagger de acesso a documentação da API.
 Você pode acessar aqui:
-http://localhost:8080/clockin/swagger-ui.html#/
+http://localhost:8080/clockin/swagger-ui.html
 
 
 ### Curl de exemplo de testes da API
