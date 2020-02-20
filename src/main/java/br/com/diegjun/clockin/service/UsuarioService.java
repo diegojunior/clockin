@@ -10,7 +10,7 @@ public interface UsuarioService {
 
     public List<Usuario> listar();
 
-    public Usuario atualizar(Usuario usuario);
+    public Usuario atualizar(Usuario usuario, Long id);
 
     public Usuario getBy(Long id);
 

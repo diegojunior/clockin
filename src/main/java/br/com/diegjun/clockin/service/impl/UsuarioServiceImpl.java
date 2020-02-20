@@ -28,12 +28,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public Usuario atualizar(Usuario usuario) {
-        return repository.save(usuario);
+    public Usuario atualizar(Usuario newUsuario, Long id) {
+        return repository.findById(id).map((usuarioListado) -> {
+            usuarioListado.atualizarDados(newUsuario);
+            return repository.save(usuarioListado);
+        }).orElseGet(() -> {
+            newUsuario.setId(id);
+            return repository.save(newUsuario);
+        });
     }
 
     @Override
     public Usuario getBy(Long id) {
-        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Usuário ${0} não encontrado", id)));
+        return repository.findById(id).orElseThrow(() -> new IllegalArgumentException(MessageFormat.format("Usuário {0} não encontrado", id)));
     }
 }

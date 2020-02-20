@@ -1,13 +1,17 @@
 package br.com.diegjun.clockin.model;
 
 
-import java.text.SimpleDateFormat;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
-
+@Entity
 public class Usuario implements Model {
 
-
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
     private String nome;
@@ -17,6 +21,7 @@ public class Usuario implements Model {
     private String email;
 
     private LocalDate dataCadastro;
+
 
     public static class Builder {
 
@@ -49,13 +54,13 @@ public class Usuario implements Model {
             return this;
         }
 
-        public Builder comDataCadastro(String dataCadastro) {
-            this.dataCadastro = LocalDate.parse(dataCadastro);
+        public Builder comDataCadastro(LocalDate dataCadastro) {
+            this.dataCadastro = dataCadastro;
             return this;
         }
 
         public Usuario build() {
-            return new Usuario(this.nome, this.cpf, this.email, this.dataCadastro);
+            return new Usuario(this.id, this.nome, this.cpf, this.email, this.dataCadastro);
         }
 
 
@@ -63,7 +68,8 @@ public class Usuario implements Model {
 
     public Usuario(){}
 
-    public Usuario(String nome, String cpf, String email, LocalDate dataCadastro) {
+    public Usuario(Long id, String nome, String cpf, String email, LocalDate dataCadastro) {
+        this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
@@ -88,6 +94,28 @@ public class Usuario implements Model {
 
     public LocalDate getDataCadastro() {
         return dataCadastro;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    private void atualizarNome(String nome) {
+        this.nome = nome;
+    }
+
+    private void atualizarCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    private void atualizarEmail(String email) {
+        this.email = email;
+    }
+
+    public void atualizarDados(Usuario usuario) {
+        atualizarNome(usuario.getNome());
+        atualizarCpf(usuario.getCpf());
+        atualizarEmail(usuario.getEmail());
     }
 
 }

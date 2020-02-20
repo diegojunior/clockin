@@ -8,10 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.time.LocalDate;
-import java.util.Arrays;
+import java.net.URI;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @RestController()
@@ -25,26 +26,42 @@ public class UsuarioController {
     @GetMapping("/usuarios")
     public ResponseEntity<List<UsuarioJson>> listagemUsuario() {
 
-        List<UsuarioJson> usuarios = service.listar().stream().map((item) -> new UsuarioMapper().convertModelToJson(item)).collect(Collectors.toList());
+        List<UsuarioJson> usuarios = service.listar().stream().map(convert()).collect(Collectors.toList());
 
-        return new ResponseEntity<List<UsuarioJson>>(usuarios, HttpStatus.OK);
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
+
+
 
     @GetMapping("/usuarios/{id}")
     public ResponseEntity<UsuarioJson> consulta(@PathVariable Long id) {
 
         UsuarioJson usuario = new UsuarioMapper().convertModelToJson(service.getBy(id));
 
-        return new ResponseEntity<UsuarioJson>(usuario, HttpStatus.OK);
+        return new ResponseEntity<>(usuario, HttpStatus.OK);
 
     }
 
-    @PutMapping("/usuarios")
-    public ResponseEntity<UsuarioJson> atualizar(@RequestBody Usuario usuario) {
+    @PutMapping("/usuarios/{id}")
+    public ResponseEntity<UsuarioJson> atualizar(@RequestBody Usuario usuario, @PathVariable Long id) {
 
-        UsuarioJson usuarioAtualizado = new UsuarioMapper().convertModelToJson(service.atualizar(usuario));
+        UsuarioJson usuarioAtualizado = new UsuarioMapper().convertModelToJson(service.atualizar(usuario, id));
 
-        return new ResponseEntity<UsuarioJson>(usuarioAtualizado, HttpStatus.OK);
+        return new ResponseEntity<>(usuarioAtualizado, HttpStatus.OK);
+    }
+
+    @PostMapping("/usuarios")
+    public ResponseEntity<UsuarioJson> salvar(@RequestBody Usuario usuario) {
+
+        UsuarioJson usuarioJson = new UsuarioMapper().convertModelToJson(service.criar(usuario));
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(usuarioJson.getId()).toUri();
+
+        return ResponseEntity.created(location).build();
+    }
+
+    private Function<Usuario, UsuarioJson> convert() {
+        return (item) -> new UsuarioMapper().convertModelToJson(item);
     }
 
 }

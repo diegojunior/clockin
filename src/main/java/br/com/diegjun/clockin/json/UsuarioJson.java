@@ -2,7 +2,12 @@ package br.com.diegjun.clockin.json;
 
 import br.com.diegjun.clockin.mapper.Json;
 import br.com.diegjun.clockin.model.Usuario;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import java.time.LocalDate;
 
@@ -17,7 +22,8 @@ public class UsuarioJson implements Json {
 
     private String email;
 
-    private String dataCadastro;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate dataCadastro;
 
     public static class Builder {
 
@@ -29,7 +35,7 @@ public class UsuarioJson implements Json {
 
         private String email;
 
-        private String dataCadastro;
+        private LocalDate dataCadastro;
 
         public Builder(Long id){
             this.id = id;
@@ -51,7 +57,7 @@ public class UsuarioJson implements Json {
         }
 
         public Builder comDataCadastro(LocalDate dataCadastro) {
-            this.dataCadastro = dataCadastro.toString();
+            this.dataCadastro = dataCadastro;
             return this;
         }
 
@@ -62,13 +68,15 @@ public class UsuarioJson implements Json {
 
     }
 
-    public UsuarioJson(Long id, String nome, String cpf, String email, String dataCadastro) {
+    public UsuarioJson(Long id, String nome, String cpf, String email, LocalDate dataCadastro) {
         this.id = id;
         this.nome = nome;
         this.cpf = cpf;
         this.email = email;
         this.dataCadastro = dataCadastro;
     }
+
+    protected UsuarioJson(){}
 
     public Long getId() {
         return id;
@@ -86,7 +94,7 @@ public class UsuarioJson implements Json {
         return email;
     }
 
-    public String getDataCadastro() {
+    public LocalDate getDataCadastro() {
         return dataCadastro;
     }
 }
