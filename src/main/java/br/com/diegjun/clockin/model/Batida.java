@@ -1,5 +1,7 @@
 package br.com.diegjun.clockin.model;
 
+import java.util.Arrays;
+
 public enum Batida {
 
     ENTRADA("E"), SAIDA("S");
@@ -12,6 +14,17 @@ public enum Batida {
 
     public String getTipo() {
         return this.tipo;
+    }
+
+    public static Batida fromTipo(String tipo) {
+        Batida batidaFiltrada = Batida.ENTRADA;
+        for (Batida batida : Batida.values()) {
+            if (batida.tipo.equalsIgnoreCase(tipo)) {
+                batidaFiltrada = batida;
+                break;
+            }
+        }
+        return batidaFiltrada;
     }
 
 }

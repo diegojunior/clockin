@@ -2,6 +2,9 @@ package br.com.diegjun.clockin.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import static br.com.diegjun.clockin.model.Batida.ENTRADA;
 
 @Entity
 public class Ponto implements Model {
@@ -10,7 +13,7 @@ public class Ponto implements Model {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private LocalDateTime dataHoraBatida;
+    private LocalTime dataHoraBatida;
 
     @ManyToOne
     private Usuario usuario;
@@ -20,7 +23,7 @@ public class Ponto implements Model {
 
     protected Ponto(){}
 
-    public Ponto(Long id, LocalDateTime dataHoraBatida, Usuario usuario, Batida batida) {
+    public Ponto(Long id, LocalTime dataHoraBatida, Usuario usuario, Batida batida) {
         this.id = id;
         this.dataHoraBatida = dataHoraBatida;
         this.usuario = usuario;
@@ -31,7 +34,7 @@ public class Ponto implements Model {
 
         private Long id;
 
-        private LocalDateTime dataHoraBatida;
+        private LocalTime dataHoraBatida;
 
         private Usuario usuario;
 
@@ -51,7 +54,7 @@ public class Ponto implements Model {
             return this;
         }
 
-        public Builder comDataHoraBatida(LocalDateTime dataHoraBatida) {
+        public Builder comHora(LocalTime dataHoraBatida) {
             this.dataHoraBatida = dataHoraBatida;
             return this;
         }
@@ -65,7 +68,7 @@ public class Ponto implements Model {
         return id;
     }
 
-    public LocalDateTime getDataHoraBatida() {
+    public LocalTime getDataHoraBatida() {
         return dataHoraBatida;
     }
 
@@ -77,7 +80,7 @@ public class Ponto implements Model {
         return batida;
     }
 
-    public void atualizaDataHoraBatida(LocalDateTime dataHoraBatida) {
+    public void atualizaDataHoraBatida(LocalTime dataHoraBatida) {
         this.dataHoraBatida = dataHoraBatida;
     }
 
@@ -93,5 +96,13 @@ public class Ponto implements Model {
         atualizaUsuario(ponto.getUsuario());
         atualizaBatida(ponto.getBatida());
         atualizaDataHoraBatida(ponto.getDataHoraBatida());
+    }
+
+    public boolean ehEntrada() {
+        return this.batida.equals(ENTRADA);
+    }
+
+    public boolean ehSaida() {
+        return this.batida.equals(Batida.SAIDA);
     }
 }

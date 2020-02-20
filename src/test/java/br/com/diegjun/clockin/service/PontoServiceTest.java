@@ -6,7 +6,6 @@ import br.com.diegjun.clockin.model.RelatorioPonto;
 import br.com.diegjun.clockin.model.Usuario;
 import br.com.diegjun.clockin.repository.PontoRepository;
 import br.com.diegjun.clockin.service.impl.PontoServiceImpl;
-import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +16,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -55,46 +55,135 @@ public class PontoServiceTest {
         Ponto entrada = new Ponto
                 .Builder(null)
                 .comUsuario(usuario)
-                .comDataHoraBatida(LocalDateTime.now().minusHours(1L))
+                .comHora(LocalTime.now())
                 .comBatida(Batida.ENTRADA)
                 .build();
 
         Ponto saida = new Ponto
                 .Builder(null)
                 .comUsuario(usuario)
-                .comDataHoraBatida(LocalDateTime.now().plusHours(2L))
+                .comHora(LocalTime.now().plusHours(2L))
                 .comBatida(Batida.SAIDA)
                 .build();
 
         Ponto entrada2 = new Ponto
                 .Builder(null)
                 .comUsuario(usuario)
-                .comDataHoraBatida(LocalDateTime.now().plusHours(4L))
+                .comHora(LocalTime.now().plusHours(3L))
                 .comBatida(Batida.ENTRADA)
                 .build();
 
         Ponto saida2 = new Ponto
                 .Builder(null)
                 .comUsuario(usuario)
-                .comDataHoraBatida(LocalDateTime.now().plusHours(8L))
+                .comHora(LocalTime.now().plusHours(4L))
                 .comBatida(Batida.SAIDA)
                 .build();
 
-        List<Ponto> pontos = Lists.newArrayList(entrada, saida, entrada2, saida);
+        List<Ponto> pontos = Lists.newArrayList(entrada, saida, entrada2, saida2);
+
+
 
         when(pontoRepository.save(entrada)).thenReturn(entrada);
+        when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(Lists.newArrayList());
+        pontoService.registrarPonto(entrada);
+
         when(pontoRepository.save(saida)).thenReturn(saida);
+        when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(Lists.newArrayList(entrada));
+        pontoService.registrarPonto(saida);
+
         when(pontoRepository.save(entrada2)).thenReturn(entrada2);
+        when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(Lists.newArrayList(entrada, saida));
+        pontoService.registrarPonto(entrada2);
+
         when(pontoRepository.save(saida2)).thenReturn(saida2);
+        when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(Lists.newArrayList(entrada, saida, entrada2));
+        pontoService.registrarPonto(saida2);
+
+        when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(pontos);
+        RelatorioPonto relatorioPonto = pontoService.gerarRelatorio(usuario.getId());
+
+        assertThat(relatorioPonto.getPontos().size()).isEqualTo(4);
+        assertThat(relatorioPonto.totalHoras()).isEqualTo("3:00:00");
+
+    }
+
+    @Test
+    public void registrarPontoEntradaTest() {
+
+        Usuario usuario = criarUsuario();
+
+        when(usuarioService.getBy(anyLong())).thenReturn(usuario);
+
+        Ponto entrada = new Ponto
+                .Builder(null)
+                .comUsuario(usuario)
+                .comHora(LocalTime.now())
+                .comBatida(Batida.ENTRADA)
+                .build();
+
+
+        List<Ponto> pontos = Lists.newArrayList(entrada);
+
+        when(pontoRepository.save(entrada)).thenReturn(entrada);
         when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(pontos);
 
         pontoService.registrarPonto(entrada);
-        pontoService.registrarPonto(saida);
-        pontoService.registrarPonto(entrada2);
-        pontoService.registrarPonto(saida2);
         RelatorioPonto relatorioPonto = pontoService.gerarRelatorio(usuario.getId());
 
-        Assertions.assertThat(relatorioPonto.getPontos().size()).isEqualTo(4);
+        assertThat(relatorioPonto.getPontos().size()).isEqualTo(1);
+
+    }
+
+    @Test
+    public void registrarPontoEntradaSemSaidaTest() {
+
+        Usuario usuario = criarUsuario();
+
+        when(usuarioService.getBy(anyLong())).thenReturn(usuario);
+
+        Ponto entrada = new Ponto
+                .Builder(null)
+                .comUsuario(usuario)
+                .comHora(LocalTime.now())
+                .comBatida(Batida.ENTRADA)
+                .build();
+
+        Ponto saida = new Ponto
+                .Builder(null)
+                .comUsuario(usuario)
+                .comHora(LocalTime.now().plusSeconds(1))
+                .comBatida(Batida.SAIDA)
+                .build();
+
+        Ponto entrada2 = new Ponto
+                .Builder(null)
+                .comUsuario(usuario)
+                .comHora(LocalTime.now().plusSeconds(2))
+                .comBatida(Batida.ENTRADA)
+                .build();
+
+        List<Ponto> pontos = Lists.newArrayList(entrada, saida, entrada2);
+
+
+
+        when(pontoRepository.save(entrada)).thenReturn(entrada);
+        when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(Lists.newArrayList());
+        pontoService.registrarPonto(entrada);
+
+        when(pontoRepository.save(saida)).thenReturn(saida);
+        when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(Lists.newArrayList(entrada));
+        pontoService.registrarPonto(saida);
+
+
+        when(pontoRepository.save(entrada2)).thenReturn(entrada2);
+        when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(Lists.newArrayList(entrada,saida));
+        pontoService.registrarPonto(entrada2);
+
+        when(pontoRepository.findByIdUsuario(usuario.getId())).thenReturn(pontos);
+        RelatorioPonto relatorioPonto = pontoService.gerarRelatorio(usuario.getId());
+
+        assertThat(relatorioPonto.getPontos().size()).isEqualTo(3);
 
     }
 

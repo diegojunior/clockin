@@ -1,27 +1,25 @@
 package br.com.diegjun.clockin.json;
 
 import br.com.diegjun.clockin.mapper.Json;
-import br.com.diegjun.clockin.model.Batida;
-import br.com.diegjun.clockin.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ManyToOne;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PontoJson implements Json {
 
     private Long id;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime dataHoraBatida;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @JsonIgnore
+    private LocalTime dataHoraBatida;
 
     private Long usuario;
 
+    @JsonIgnore
     private String batida;
 
 
@@ -33,7 +31,7 @@ public class PontoJson implements Json {
 
         private String batida;
 
-        private LocalDateTime dataHoraBatida;
+        private LocalTime dataHoraBatida;
 
         public Builder(Long id){
             this.id = id;
@@ -49,7 +47,7 @@ public class PontoJson implements Json {
             return this;
         }
 
-        public Builder comDataHoraBatida(LocalDateTime dataHoraBatida) {
+        public Builder comHoraBatida(LocalTime dataHoraBatida) {
             this.dataHoraBatida = dataHoraBatida;
             return this;
         }
@@ -61,7 +59,7 @@ public class PontoJson implements Json {
 
     }
 
-    public PontoJson(Long id, Long usuario, String batida, LocalDateTime dataHoraBatida) {
+    public PontoJson(Long id, Long usuario, String batida, LocalTime dataHoraBatida) {
         this.id = id;
         this.usuario = usuario;
         this.batida = batida;
@@ -74,7 +72,7 @@ public class PontoJson implements Json {
         return id;
     }
 
-    public LocalDateTime getDataHoraBatida() {
+    public LocalTime getDataHoraBatida() {
         return dataHoraBatida;
     }
 

@@ -1,11 +1,13 @@
 package br.com.diegjun.clockin.mapper;
 
 import br.com.diegjun.clockin.json.PontoJson;
-import br.com.diegjun.clockin.model.Batida;
 import br.com.diegjun.clockin.model.Ponto;
 import br.com.diegjun.clockin.model.Usuario;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import static br.com.diegjun.clockin.model.Batida.fromTipo;
 
 public class PontoMapper implements JsonMapper<PontoJson, Ponto> {
 
@@ -14,8 +16,8 @@ public class PontoMapper implements JsonMapper<PontoJson, Ponto> {
         return new Ponto
                     .Builder(json.getId())
                     .comUsuario(new Usuario.Builder(json.getUsuario()).build())
-                    .comBatida(Batida.valueOf(json.getBatida().toUpperCase()))
-                    .comDataHoraBatida(LocalDateTime.now())
+                    //.comBatida(fromTipo(json.getBatida().toUpperCase()))
+                    .comHora(LocalTime.now())
                     .build();
     }
 
@@ -25,7 +27,7 @@ public class PontoMapper implements JsonMapper<PontoJson, Ponto> {
                     .Builder(model.getId())
                     .comUsuario(model.getUsuario().getId())
                     .comBatida(model.getBatida().getTipo())
-                    .comDataHoraBatida(model.getDataHoraBatida())
+                    .comHoraBatida(model.getDataHoraBatida())
                     .build();
     }
 }

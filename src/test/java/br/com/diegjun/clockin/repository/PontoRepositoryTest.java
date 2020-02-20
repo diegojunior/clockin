@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -37,28 +38,28 @@ public class PontoRepositoryTest {
         Ponto entrada = new Ponto
                 .Builder(null)
                 .comUsuario(usuario)
-                .comDataHoraBatida(LocalDateTime.now().minusHours(1L))
+                .comHora(LocalTime.now().minusHours(1L))
                 .comBatida(Batida.ENTRADA)
                 .build();
 
         Ponto saida = new Ponto
                 .Builder(null)
                 .comUsuario(usuario)
-                .comDataHoraBatida(LocalDateTime.now().plusHours(2L))
+                .comHora(LocalTime.now().plusHours(2L))
                 .comBatida(Batida.SAIDA)
                 .build();
 
         Ponto entrada2 = new Ponto
                 .Builder(null)
                 .comUsuario(usuario)
-                .comDataHoraBatida(LocalDateTime.now().plusHours(4L))
+                .comHora(LocalTime.now().plusHours(4L))
                 .comBatida(Batida.ENTRADA)
                 .build();
 
         Ponto saida2 = new Ponto
                 .Builder(null)
                 .comUsuario(usuario)
-                .comDataHoraBatida(LocalDateTime.now().plusHours(8L))
+                .comHora(LocalTime.now().plusHours(8L))
                 .comBatida(Batida.SAIDA)
                 .build();
 

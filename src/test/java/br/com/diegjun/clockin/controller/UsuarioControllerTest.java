@@ -19,6 +19,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -82,15 +84,11 @@ public class UsuarioControllerTest {
         Usuario usuarioPersistido = new Usuario.Builder(1L).comNome("diego").comCpf("123456").comEmail("teste@teste.com.br").comDataCadastro(LocalDate.now()).build();
         UsuarioJson usuarioJson = new UsuarioMapper().convertModelToJson(usuario);
 
-        when(usuarioService.criar(usuario)).thenReturn(usuarioPersistido);
+        when(usuarioService.criar(any())).thenReturn(usuarioPersistido);
         HttpEntity<UsuarioJson> body = new HttpEntity<>(usuarioJson);
         ResponseEntity<UsuarioJson> response = this.restTemplate.exchange(usuariosEndpoint(), HttpMethod.POST, body, new ParameterizedTypeReference<UsuarioJson>() {});
 
-        UsuarioJson usuarioRetornado = response.getBody();
-//        assertThat(usuarioRetornado.getId() == 1L);
-//        assertThat(usuarioRetornado.getNome().equals("diego"));
-//        assertThat(response.getStatusCode().is2xxSuccessful());
-        //assertThat(response.getHeaders().containsKey(""));
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
 
     }
     
