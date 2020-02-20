@@ -31,8 +31,8 @@ public class UsuarioRepositoryTest {
         Usuario usuarioASerPersistido = new Usuario.Builder(null).comNome("chaves").comCpf("11111").comEmail("teste@teste.com.br").comDataCadastro(LocalDate.now()).build();
 
         Usuario usuario = usuarioRepository.save(usuarioASerPersistido);
-        assertThat(usuario.getId()).isEqualTo(1L);
         assertThat(usuario.getNome()).isEqualTo("chaves");
+        assertThat(usuario.getCpf()).isEqualTo("11111");
     }
 
     @Test

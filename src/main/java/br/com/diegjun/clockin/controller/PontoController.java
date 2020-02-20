@@ -34,7 +34,8 @@ public class PontoController {
     @Operation(summary = "Bater ponto", description = "Batida do ponto do usuário.", tags = { "pontos" })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "successful operation",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = PontoJson.class)))})
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = PontoJson.class))),
+            @ApiResponse(responseCode = "400", description = "Usuário 0 não encontrado")})
     @PostMapping("/pontos")
     public ResponseEntity<PontoJson> baterPonto(@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Dados do ponto",
                                                     content = @Content(schema = @Schema(implementation = PontoJson.class, requiredProperties = {"usuario"})), required = true)
