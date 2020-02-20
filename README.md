@@ -19,9 +19,10 @@ Para subir a aplicação, deve-se executar o comando na raiz do projeto:
 mvn spring-boot:run
 ```
 
-### Acessando a aplicação
+### Endpoints da aplicação
 
 Os endpoints da api para testar no curl estão disponíveis pela uri base:
+
 http://localhost:8080/clockin/v1/usuarios
 
 http://localhost:8080/clockin/v1/pontos

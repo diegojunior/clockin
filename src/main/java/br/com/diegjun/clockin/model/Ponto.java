@@ -1,7 +1,6 @@
 package br.com.diegjun.clockin.model;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import static br.com.diegjun.clockin.model.Batida.ENTRADA;

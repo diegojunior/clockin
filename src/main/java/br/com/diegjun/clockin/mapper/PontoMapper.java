@@ -16,7 +16,6 @@ public class PontoMapper implements JsonMapper<PontoJson, Ponto> {
         return new Ponto
                     .Builder(json.getId())
                     .comUsuario(new Usuario.Builder(json.getUsuario()).build())
-                    //.comBatida(fromTipo(json.getBatida().toUpperCase()))
                     .comHora(LocalTime.now())
                     .build();
     }

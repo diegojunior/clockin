@@ -1,7 +1,5 @@
 package br.com.diegjun.clockin.model;
 
-import java.util.Arrays;
-
 public enum Batida {
 
     ENTRADA("E"), SAIDA("S");

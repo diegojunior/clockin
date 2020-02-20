@@ -19,7 +19,6 @@ public class PontoJson implements Json {
 
     private Long usuario;
 
-    @JsonIgnore
     private String batida;
 
 
