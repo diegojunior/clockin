@@ -2,16 +2,14 @@ package br.com.diegjun.clockin.service;
 
 import br.com.diegjun.clockin.model.Batida;
 import br.com.diegjun.clockin.model.Ponto;
+import br.com.diegjun.clockin.model.RelatorioPonto;
 import br.com.diegjun.clockin.model.Usuario;
 import br.com.diegjun.clockin.repository.PontoRepository;
 import br.com.diegjun.clockin.service.impl.PontoServiceImpl;
-import br.com.diegjun.clockin.service.impl.UsuarioServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.util.Lists;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -95,9 +92,9 @@ public class PontoServiceTest {
         pontoService.registrarPonto(saida);
         pontoService.registrarPonto(entrada2);
         pontoService.registrarPonto(saida2);
-        List<Ponto> pontosDoUsuario = pontoService.listarPontosDoUsuario(usuario.getId());
+        RelatorioPonto relatorioPonto = pontoService.gerarRelatorio(usuario.getId());
 
-        Assertions.assertThat(pontosDoUsuario.size()).isEqualTo(4);
+        Assertions.assertThat(relatorioPonto.getPontos().size()).isEqualTo(4);
 
     }
 

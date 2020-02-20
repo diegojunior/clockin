@@ -1,7 +1,6 @@
 package br.com.diegjun.clockin.mapper;
 
 import br.com.diegjun.clockin.json.PontoJson;
-import br.com.diegjun.clockin.json.UsuarioJson;
 import br.com.diegjun.clockin.model.Batida;
 import br.com.diegjun.clockin.model.Ponto;
 import br.com.diegjun.clockin.model.Usuario;
@@ -25,7 +24,7 @@ public class PontoMapper implements JsonMapper<PontoJson, Ponto> {
         return new PontoJson
                     .Builder(model.getId())
                     .comUsuario(model.getUsuario().getId())
-                    .comBatita(model.getBatida().getTipo())
+                    .comBatida(model.getBatida().getTipo())
                     .comDataHoraBatida(model.getDataHoraBatida())
                     .build();
     }

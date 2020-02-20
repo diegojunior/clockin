@@ -44,7 +44,7 @@ public class PontoJson implements Json {
             return this;
         }
 
-        public Builder comBatita(String batida) {
+        public Builder comBatida(String batida) {
             this.batida = batida;
             return this;
         }
