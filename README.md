@@ -4,10 +4,6 @@ Rest API de simulação de batida de ponto
 
 ## Inicio
 
-### Pre-requisitos
-
-Esta aplicação necessita de ter o java instalado.
-
 
 ## Executando a aplicação
 
