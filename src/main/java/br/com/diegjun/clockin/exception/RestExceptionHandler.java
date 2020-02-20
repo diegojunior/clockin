@@ -11,8 +11,16 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+    public static final String ERRO_INTERNO = "Ocorreu um erro inesperado. Favor entrar em contato";
+
     @ExceptionHandler({IllegalArgumentException.class})
     public ResponseEntity<Object> handleUserInvalid(Exception ex, WebRequest request) {
         return new ResponseEntity<>(ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler({NullPointerException.class})
+    public ResponseEntity<Object> handleNullPointer(Exception ex, WebRequest request) {
+        return new ResponseEntity<>(ERRO_INTERNO, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 }
