@@ -34,7 +34,6 @@ spring.datasource.username=sa
 spring.datasource.password=password
 ```
 
-Using the functions of the application will only be possible after the database is initiated.
 
 ## Swagger de acesso a documentação da API.
 Você pode acessar aqui:
