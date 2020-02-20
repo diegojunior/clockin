@@ -56,7 +56,7 @@ curl -X GET "http://localhost:8080/clockin/v1/usuarios" -H "accept: application/
 
 Para editar um usuário existente:
 ```
-curl -X PUT "http://localhost:8080/clockin/v1/usuarios/1" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"id\":1,\"nome\":\"lala\",\"cpf\":\"333.333.333-44\",\"email\":\"string\",\"dataCadastro\":\"19-02-2020\"}"
+curl -X PUT "http://localhost:8080/clockin/v1/usuarios/1" -H "accept: application/json" -H "Content-Type: application/json" -d "{\"nome\":\"pequeno\",\"cpf\":\"111.333.333-44\",\"email\":\"string\"}"
 
 ```
 Para consultar um usuário:
